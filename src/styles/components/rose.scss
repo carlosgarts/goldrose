@@ -55,15 +55,17 @@ body{
     }
 }
 #app {
-    width: 90%;
-    height: 90vh;
+    //width: 90%;
+    //height: 90vh;
+    width: 85%;
+    height: 80vh;
     margin: 5vh auto;
     z-index: 1;
     position: relative;
     opacity: 1;
     @media (min-width: $movil-size) {
-        width: 85%;
-        height: 80vh;
+        // width: 85%;
+        // height: 80vh;
         margin: 10vh auto;
         opacity: 0.7;
     }

@@ -16,7 +16,7 @@
           </div>
           <div class="more-info">
             <div class="diamond"></div>
-            <h2>Check out my portfolio at Artmixa.com</h2>
+            <h2>Check out my portfolio at carlosgamez.dev</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu tempus felis. Aliquam mattis varius odio in malesuada. 
               Pellentesque congue risus quis vulputate porttitor. Pellentesque semper scelerisque augue, vitae fringilla purus finibus sed. 
               Donec eleifend velit sit amet libero pharetra, nec lobortis nibh fringilla.</p>

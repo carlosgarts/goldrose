@@ -57,7 +57,7 @@ export default {
     line-height: 165%;
     margin-top: 0;
     color: $color1;
-    font-size: 14px;
+    font-size: 12px;
     @media (min-width: $tablet-size) {
       font-size: 14px;
     }

@@ -400,8 +400,8 @@ body {
   align-items: center;
 }
 #app {
-  width: 90%;
-  height: 90vh;
+  width: 85%;
+  height: 80vh;
   margin: 5vh auto;
   z-index: 1;
   position: relative;
@@ -409,8 +409,6 @@ body {
 }
 @media (min-width: 800px) {
   #app {
-    width: 85%;
-    height: 80vh;
     margin: 10vh auto;
     opacity: 0.7;
   }
@@ -586,7 +584,7 @@ to {
   line-height: 165%;
   margin-top: 0;
   color: #FFFCDD;
-  font-size: 14px;
+  font-size: 12px;
 }
 @media (min-width: 1000px) {
 .two-grid p[data-v-3fb7a406] {

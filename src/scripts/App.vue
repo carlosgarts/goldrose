@@ -1,7 +1,6 @@
 <template>
   <div id="app" @wheel="scrollHandler" v-pan="panHandler">
     <nav class="navigation" v-bind:class="{ centrado: position == 4, bottom: position == 0 }">
-      <!-- <button class="nav-but">{{scrollLocation}}</button> -->
       <button class="nav-but" v-bind:class="{ selected: position == 0}" v-on:click="browseTo(0)" >First</button>
       <button class="nav-but" v-bind:class="{ selected: position == 1}" v-on:click="browseTo(1)" >Second</button>
       <button class="nav-but" v-bind:class="{ selected: position == 2}" v-on:click="browseTo(2)" >Third</button>
@@ -23,7 +22,6 @@
     <transition name="fade">
       <Fifth v-if="position == 4" />
     </transition>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
@@ -48,13 +46,12 @@ export default {
   data: function () {
     return {
       position: 0,
-      // scrollLocation: 0,
       cooldown: false 
     }
   },
   directives: {
     pan: {
-      // Definición de directiva
+      // Definición de directiva para el manejo de gestos en movil
       bind: function(el, binding) {
         if (typeof binding.value === "function") {
           const mc = new Hammer(el);
@@ -81,36 +78,25 @@ export default {
       if (e.type == "panup" && e.isFinal == true && this.position < 4) {
         console.log(e);
         this.position += 1;
-        //this.position = Math.min(Math.max(0, this.scrollLocation), 4);
       } else if (e.type == "pandown" && e.isFinal == true && this.position > 0) {
         console.log(e);
         this.position -= 1;
-        //this.position = Math.min(Math.max(0, this.scrollLocation), 4);
       }
     },
     scrollHandler: function(event) {
       console.log(event);
       if (this.cooldown == false ) {
         if (event.deltaY >= 3 && this.position < 4) {
-          this.position += 1;  //////NOTA averiguar sobre event bubbling aqui https://www.sitepoint.com/event-bubbling-javascript/
+          this.position += 1;
           this.cooldown = true;
         }
         else if (event.deltaY <= -3 && this.position > 0) {
-          this.position -= 1; //////NOTA controlar de que no se ejecute inmediatamente despues de activarlo por un segundo al menos
+          this.position -= 1;
           this.cooldown = true;
         } 
       }
       //Cooldown
       setTimeout(() => this.cooldown = false, 2000);
-      // event.preventDefault();
-
-      // this.scrollLocation += event.deltaY * -0.01;
-
-      // // Restrict scale
-      // this.scrollLocation = Math.min(Math.max(-1.5, this.scrollLocation), 0);
-
-      // Apply scale transform
-      //el.style.transform = `scale(${scale})`;
     }
   },
   watch: {
@@ -125,23 +111,6 @@ export default {
         Rose.methods.moveCamera(val);
       }
     }
-    // scrollLocation: function(val){
-    //   if (val <= 0 && val > -0.3){
-    //     this.position = 0; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.3 && val > -0.6) {
-    //     this.position = 1; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.6 && val > -0.9) {
-    //     this.position = 2; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.9 && val > -1.2) {
-    //     this.position = 3; this.browseTo(this.position);
-    //   }
-    //   if (val <= -1.2 && val > -1.5) {
-    //     this.position = 4; this.browseTo(this.position);
-    //   }
-    // }
   },
   mounted() {
       this.init('rose');

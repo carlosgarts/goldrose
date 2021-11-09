@@ -47,8 +47,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -68,13 +66,12 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       position: 0,
-      // scrollLocation: 0,
       cooldown: false
     };
   },
   directives: {
     pan: {
-      // Definición de directiva
+      // Definición de directiva para el manejo de gestos en movil
       bind: function bind(el, binding) {
         if (typeof binding.value === "function") {
           var mc = new (hammerjs__WEBPACK_IMPORTED_MODULE_0___default())(el);
@@ -103,10 +100,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (e.type == "panup" && e.isFinal == true && this.position < 4) {
         console.log(e);
-        this.position += 1; //this.position = Math.min(Math.max(0, this.scrollLocation), 4);
+        this.position += 1;
       } else if (e.type == "pandown" && e.isFinal == true && this.position > 0) {
         console.log(e);
-        this.position -= 1; //this.position = Math.min(Math.max(0, this.scrollLocation), 4);
+        this.position -= 1;
       }
     },
     scrollHandler: function scrollHandler(event) {
@@ -116,12 +113,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.cooldown == false) {
         if (event.deltaY >= 3 && this.position < 4) {
-          this.position += 1; //////NOTA averiguar sobre event bubbling aqui https://www.sitepoint.com/event-bubbling-javascript/
-
+          this.position += 1;
           this.cooldown = true;
         } else if (event.deltaY <= -3 && this.position > 0) {
-          this.position -= 1; //////NOTA controlar de que no se ejecute inmediatamente despues de activarlo por un segundo al menos
-
+          this.position -= 1;
           this.cooldown = true;
         }
       } //Cooldown
@@ -129,12 +124,7 @@ __webpack_require__.r(__webpack_exports__);
 
       setTimeout(function () {
         return _this.cooldown = false;
-      }, 2000); // event.preventDefault();
-      // this.scrollLocation += event.deltaY * -0.01;
-      // // Restrict scale
-      // this.scrollLocation = Math.min(Math.max(-1.5, this.scrollLocation), 0);
-      // Apply scale transform
-      //el.style.transform = `scale(${scale})`;
+      }, 2000);
     }
   },
   watch: {
@@ -146,24 +136,7 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         _components_rose_js__WEBPACK_IMPORTED_MODULE_6__.default.methods.moveCamera(val);
       }
-    } // scrollLocation: function(val){
-    //   if (val <= 0 && val > -0.3){
-    //     this.position = 0; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.3 && val > -0.6) {
-    //     this.position = 1; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.6 && val > -0.9) {
-    //     this.position = 2; this.browseTo(this.position);
-    //   }
-    //   if (val <= -0.9 && val > -1.2) {
-    //     this.position = 3; this.browseTo(this.position);
-    //   }
-    //   if (val <= -1.2 && val > -1.5) {
-    //     this.position = 4; this.browseTo(this.position);
-    //   }
-    // }
-
+    }
   },
   mounted: function mounted() {
     this.init('rose');
@@ -396,18 +369,20 @@ new vue__WEBPACK_IMPORTED_MODULE_4__.default({
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
+var _assets_keyframes_json__WEBPACK_IMPORTED_MODULE_7___namespace_cache;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 /* harmony import */ var three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! three/examples/jsm/loaders/FBXLoader.js */ "./node_modules/three/examples/jsm/loaders/FBXLoader.js");
-/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
+/* harmony import */ var gsap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gsap */ "./node_modules/gsap/index.js");
 /* harmony import */ var three_examples_jsm_postprocessing_EffectComposer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! three/examples/jsm/postprocessing/EffectComposer.js */ "./node_modules/three/examples/jsm/postprocessing/EffectComposer.js");
 /* harmony import */ var three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! three/examples/jsm/postprocessing/RenderPass.js */ "./node_modules/three/examples/jsm/postprocessing/RenderPass.js");
 /* harmony import */ var three_examples_jsm_postprocessing_BokehPass_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! three/examples/jsm/postprocessing/BokehPass.js */ "./node_modules/three/examples/jsm/postprocessing/BokehPass.js");
 /* harmony import */ var three_examples_jsm_postprocessing_UnrealBloomPass_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! three/examples/jsm/postprocessing/UnrealBloomPass.js */ "./node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js");
- //import { GUI } from 'three/examples/jsm/libs/dat.gui.module.js';
+/* harmony import */ var _utils_SetFlakes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./utils/SetFlakes */ "./src/scripts/components/utils/SetFlakes.js");
+/* harmony import */ var _assets_keyframes_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./assets/keyframes.json */ "./src/scripts/components/assets/keyframes.json");
 
 
 
@@ -415,7 +390,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var camera, scene, renderer; //screen variables
+
+
+var camera;
+var renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
+  antialias: true
+});
+var scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene();
+var loadingManager; //screen variables
 
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -432,72 +414,32 @@ var params = {
 }; //post process variable
 
 var clock = new three__WEBPACK_IMPORTED_MODULE_0__.Clock();
-var mixer; //rain
+var mixer; //particles
 
-var planes = [];
-var particles;
-var leaves = 100; //Desktop Keyframes
-
-var PxKey = [-18.210426085816923, 14.155840851402775, -5.954618240455879, -30.069425753526716, -8.68918959963663];
-var PyKey = [147.7394041347256, 40.16273947145469, -2.315295624737873, -75.43381971571996, -198.43381971571995];
-var PzKey = [-73.81922701216679, 1.1228435519628173, 14.025126995276748, 59.8385966589582, -1.947536332215347];
-var RxKey = [-2.747292795034819, 1.9880055433982746, 1.7244907131919927, 0.08914142778441, 1.5707963267948972];
-var RyKey = [-0.3447327494200625, 1.3428862462967754, 0.04465163038297755, -0.37912502957241256, 0];
-var RzKey = [2.386404290083237, 3.40339, 2.8610561812624917, 0.033067542807483835, 0.2524948722906986]; //Mobile Keyframes
-
-var MPxKey = [63.60011752649689, 52.155660078014435, 46.489743123008, 74.27971675946814, 6.90649615121295];
-var MPyKey = [127.67108027624823, 80.17108027624852, -1.8289197237514827, -114.82891972375148, -264.3289197237515];
-var MPzKey = [-118.03795392193378, -77.92219151225389, -69.08209054795668, -112.4406809918906, -0.7824457669215876];
-var MRxKey = [-3.0991986113708725, -3.0991986113708725, -3.069417134970282, -3.069417134970282, -4.692268316654812033];
-var MRyKey = [0.5195876567127464, 0.5195876567127464, 0.5687914698042928, 0.5687914698042928, 0.016468014160117138];
-var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.102669918113523, 3.8331846057]; //Testing Variables
-//const gui = new GUI();
-//init();
-//animate();
-
+var flakes = 100;
+var particles = new three__WEBPACK_IMPORTED_MODULE_0__.Object3D();
+var keyFr = /*#__PURE__*/ (_assets_keyframes_json__WEBPACK_IMPORTED_MODULE_7___namespace_cache || (_assets_keyframes_json__WEBPACK_IMPORTED_MODULE_7___namespace_cache = __webpack_require__.t(_assets_keyframes_json__WEBPACK_IMPORTED_MODULE_7__, 2)));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Rose',
   methods: {
     init: function init(element) {
-      var container = document.getElementById('rose'); //document.createElement( 'div' );
-      //document.body.appendChild( container );
-      //Load Screen
+      var container = document.getElementById('rose'); //Load Screen
 
-      var loadingManager = new three__WEBPACK_IMPORTED_MODULE_0__.LoadingManager(function () {
+      loadingManager = new three__WEBPACK_IMPORTED_MODULE_0__.LoadingManager(function () {
         var loadingScreen = document.getElementById('loadscreen');
         loadingScreen.classList.add('fade-out');
         setTimeout(function () {
           return loadingScreen.style.display = "none";
-        }, 1000); // optional: remove loader from DOM via event listener
-        //loadingScreen.addEventListener( 'transitionend', onTransitionEnd );
-      });
-      camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 2000); //fov 45
-
-      if (isMovile == true) {
-        camera.position.set(MPxKey[0], MPyKey[0], MPzKey[0]);
-        camera.rotation.set(MRxKey[0], MRyKey[0], MRzKey[0]);
-      } else {
-        camera.position.set(PxKey[0], PyKey[0], PzKey[0]);
-        camera.rotation.set(RxKey[0], RyKey[0], RzKey[0]);
-      }
-
-      scene = new three__WEBPACK_IMPORTED_MODULE_0__.Scene();
-      scene.background = new three__WEBPACK_IMPORTED_MODULE_0__.Color(0x000000);
-      var ambient = new three__WEBPACK_IMPORTED_MODULE_0__.AmbientLight(0xffffff);
-      scene.add(ambient);
-      var pointLight = new three__WEBPACK_IMPORTED_MODULE_0__.PointLight(0xffffff, 2);
-      scene.add(pointLight);
-      var light1 = new three__WEBPACK_IMPORTED_MODULE_0__.PointLight(0xffffff, 2);
-      light1.position.set(-7.52, 179.5, 3.48);
-      scene.add(light1); //Env Map
+        }, 1000);
+      }); //Env Map
 
       var path = './assets/cubemap/';
       var urls = [path + 'px.png', path + 'nx.png', path + 'py.png', path + 'ny.png', path + 'pz.png', path + 'nz.png'];
       var reflectionCube = new three__WEBPACK_IMPORTED_MODULE_0__.CubeTextureLoader().load(urls);
-      scene.background = reflectionCube; //Env Map Fin
-      // Plane Particles
+      scene.background = reflectionCube;
+      this.initLights(scene);
+      this.initCameras(window.innerHeight, window.innerWidth, keyFr); // Plane Particles
 
-      particles = new three__WEBPACK_IMPORTED_MODULE_0__.Object3D();
       scene.add(particles);
       var planePiece = new three__WEBPACK_IMPORTED_MODULE_0__.PlaneGeometry(10, 10, 1, 1);
       var planeMat = new three__WEBPACK_IMPORTED_MODULE_0__.MeshPhongMaterial({
@@ -507,30 +449,7 @@ var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.10266
         envMap: reflectionCube,
         side: three__WEBPACK_IMPORTED_MODULE_0__.DoubleSide
       });
-      var rand = Math.random;
-
-      function randEx() {
-        var number = Math.random();
-
-        if (number >= 0.5 && number <= 0.7) {
-          //console.log(number + 0.3);
-          return number + 0.3;
-        } else if (number >= 0.3 && number < 0.5) {
-          //console.log(number - 0.3);
-          return number - 0.3;
-        } else {
-          return number;
-        }
-      }
-
-      for (var i = 0; i < leaves; i++) {
-        var plane = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(planePiece, planeMat);
-        plane.position.set(randEx() - 0.5, randEx() - 0.5, randEx() - 0.5).normalize();
-        plane.position.multiplyScalar(rand() * 400 * 2);
-        plane.rotation.set(rand() * 2, rand() * 2, rand() * 2);
-        particles.add(plane);
-      } //Material Rose
-
+      (0,_utils_SetFlakes__WEBPACK_IMPORTED_MODULE_6__.default)(flakes, particles, planePiece, planeMat); //Material Rose
 
       var texture = new three__WEBPACK_IMPORTED_MODULE_0__.TextureLoader().load("./assets/texture/metalperla_Base_Color.png");
       var rosematerial = new three__WEBPACK_IMPORTED_MODULE_0__.MeshStandardMaterial({
@@ -540,31 +459,8 @@ var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.10266
       });
       rosematerial.map = texture; // Model Rose
 
-      var loader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_1__.FBXLoader(loadingManager);
-      loader.load('./assets/model/goldenroseanimated.fbx', function (object) {
-        mixer = new three__WEBPACK_IMPORTED_MODULE_0__.AnimationMixer(object); //cameraMixer = new THREE.AnimationMixer( object );
-
-        var action = mixer.clipAction(object.animations[0]);
-        action.timeScale = 0.2;
-        action.play();
-        object.traverse(function (child) {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-            child.material = rosematerial;
-          }
-        });
-        object.scale.set(.05, .05, .05);
-        scene.add(object);
-      });
-      renderer = new three__WEBPACK_IMPORTED_MODULE_0__.WebGLRenderer({
-        antialias: true
-      });
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.shadowMap.enabled = true;
-      this.initPostprocessing();
-      renderer.autoClear = false;
+      this.initMesh('./assets/model/goldenroseanimated.fbx', rosematerial);
+      this.initRenderer(renderer, window.innerWidth, window.innerHeight);
       container.appendChild(renderer.domElement);
       window.addEventListener('resize', this.onWindowResize);
     },
@@ -583,7 +479,7 @@ var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.10266
     animate: function animate() {
       //requestAnimationFrame( animate );
       var delta = clock.getDelta();
-      if (mixer) mixer.update(delta); //animacion de particulas o lluvia
+      if (mixer) mixer.update(delta); //animacion de particulas
 
       particles.rotation.x -= 0.0005;
       particles.rotation.y -= 0.001;
@@ -593,47 +489,92 @@ var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.10266
           child.rotation.y += 0.005;
           child.rotation.z += 0.005;
         }
-      }); //Fin de animacion de lluvia
+      }); //Fin de animacion de particula
       //renderer.render( scene, camera );
 
       postprocessing.composer.render(0.1);
     },
+    initLights: function initLights(scene) {
+      var ambient = new three__WEBPACK_IMPORTED_MODULE_0__.AmbientLight(0xffffff);
+      var pointLight = new three__WEBPACK_IMPORTED_MODULE_0__.PointLight(0xffffff, 2);
+      var light1 = new three__WEBPACK_IMPORTED_MODULE_0__.PointLight(0xffffff, 2);
+      light1.position.set(-7.52, 179.5, 3.48);
+      scene.add(ambient);
+      scene.add(pointLight);
+      scene.add(light1);
+    },
+    initCameras: function initCameras(height, width, keyframes) {
+      camera = new three__WEBPACK_IMPORTED_MODULE_0__.PerspectiveCamera(70, width / height, 1, 2000); //fov 45
+
+      if (isMovile == true) {
+        camera.position.set(keyframes.movil.PxKey[0], keyframes.movil.PyKey[0], keyframes.movil.MPzKey[0]);
+        camera.rotation.set(keyframes.movil.MRxKey[0], keyframes.movil.MRyKey[0], keyframes.movil.MRzKey[0]);
+      } else {
+        camera.position.set(keyframes.desk.PxKey[0], keyframes.desk.PyKey[0], keyframes.desk.PzKey[0]);
+        camera.rotation.set(keyframes.desk.RxKey[0], keyframes.desk.RyKey[0], keyframes.desk.RzKey[0]);
+      }
+    },
+    initRenderer: function initRenderer(renderer, width, height) {
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(width, height);
+      renderer.shadowMap.enabled = true;
+      this.initPostprocessing();
+      renderer.autoClear = false;
+    },
     moveCamera: function moveCamera(keyframe) {
       if (isMovile == true) {
-        gsap__WEBPACK_IMPORTED_MODULE_6__.TweenMax.to(camera.position, {
-          x: MPxKey[keyframe],
-          y: MPyKey[keyframe],
-          z: MPzKey[keyframe],
+        gsap__WEBPACK_IMPORTED_MODULE_8__.TweenMax.to(camera.position, {
+          x: keyFr.movil.PxKey[keyframe],
+          y: keyFr.movil.PyKey[keyframe],
+          z: keyFr.movil.PzKey[keyframe],
           delay: 0.5,
           duration: 3.5,
-          ease: "power2.out"
+          ease: "power0.out"
         });
-        gsap__WEBPACK_IMPORTED_MODULE_6__.TweenMax.to(camera.rotation, {
-          x: MRxKey[keyframe],
-          y: MRyKey[keyframe],
-          z: MRzKey[keyframe],
+        gsap__WEBPACK_IMPORTED_MODULE_8__.TweenMax.to(camera.rotation, {
+          x: keyFr.movil.RxKey[keyframe],
+          y: keyFr.movil.RyKey[keyframe],
+          z: keyFr.movil.RzKey[keyframe],
           delay: 0.5,
           duration: 3.5,
-          ease: "power2.out"
+          ease: "power0.out"
         });
       } else {
-        gsap__WEBPACK_IMPORTED_MODULE_6__.TweenMax.to(camera.position, {
-          x: PxKey[keyframe],
-          y: PyKey[keyframe],
-          z: PzKey[keyframe],
+        gsap__WEBPACK_IMPORTED_MODULE_8__.TweenMax.to(camera.position, {
+          x: keyFr.desk.PxKey[keyframe],
+          y: keyFr.desk.PyKey[keyframe],
+          z: keyFr.desk.PzKey[keyframe],
           delay: 0.5,
           duration: 3.5,
           ease: "power2.out"
         });
-        gsap__WEBPACK_IMPORTED_MODULE_6__.TweenMax.to(camera.rotation, {
-          x: RxKey[keyframe],
-          y: RyKey[keyframe],
-          z: RzKey[keyframe],
+        gsap__WEBPACK_IMPORTED_MODULE_8__.TweenMax.to(camera.rotation, {
+          x: keyFr.desk.RxKey[keyframe],
+          y: keyFr.desk.RyKey[keyframe],
+          z: keyFr.desk.RzKey[keyframe],
           delay: 0.5,
           duration: 3.5,
           ease: "power2.out"
         });
       }
+    },
+    initMesh: function initMesh(meshUrl, rosematerial) {
+      var loader = new three_examples_jsm_loaders_FBXLoader_js__WEBPACK_IMPORTED_MODULE_1__.FBXLoader(loadingManager);
+      loader.load(meshUrl, function (object) {
+        mixer = new three__WEBPACK_IMPORTED_MODULE_0__.AnimationMixer(object);
+        var action = mixer.clipAction(object.animations[0]);
+        action.timeScale = 0.2;
+        action.play();
+        object.traverse(function (child) {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            child.material = rosematerial;
+          }
+        });
+        object.scale.set(.05, .05, .05);
+        scene.add(object);
+      });
     },
     initPostprocessing: function initPostprocessing() {
       var renderPass = new three_examples_jsm_postprocessing_RenderPass_js__WEBPACK_IMPORTED_MODULE_3__.RenderPass(scene, camera); //bloom params
@@ -664,6 +605,47 @@ var MRzKey = [3.1205335622209334, 3.1205335622209334, 3.102669918113523, 3.10266
     }
   }
 });
+
+/***/ }),
+
+/***/ "./src/scripts/components/utils/SetFlakes.js":
+/*!***************************************************!*\
+  !*** ./src/scripts/components/utils/SetFlakes.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
+
+var rand = Math.random;
+
+function randEx() {
+  var number = Math.random();
+
+  if (number >= 0.5 && number <= 0.7) {
+    return number + 0.3;
+  } else if (number >= 0.3 && number < 0.5) {
+    return number - 0.3;
+  } else {
+    return number;
+  }
+}
+
+function SetFlakes(flakes, particles, planePiece, planeMat) {
+  for (var i = 0; i < flakes; i++) {
+    var plane = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(planePiece, planeMat);
+    plane.position.set(randEx() - 0.5, randEx() - 0.5, randEx() - 0.5).normalize();
+    plane.position.multiplyScalar(rand() * 400 * 2);
+    plane.rotation.set(rand() * 2, rand() * 2, rand() * 2);
+    particles.add(plane);
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SetFlakes);
 
 /***/ }),
 
@@ -11080,7 +11062,7 @@ module.exports = __webpack_require__(/*! ./modules/_core */ "./node_modules/core
   \***********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "assets/98e776d9b2ddc0eb470fd57c40cfac1f.png";
+module.exports = __webpack_require__.p + "assets/a2685c209f305540e0dc9920a73048fb.png";
 
 /***/ }),
 
@@ -11090,7 +11072,7 @@ module.exports = __webpack_require__.p + "assets/98e776d9b2ddc0eb470fd57c40cfac1
   \***********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "assets/c5c3d3e188efde0d9a0d3e4514dc5ae0.png";
+module.exports = __webpack_require__.p + "assets/ab544cee2ffc877510c57cd712d298e7.png";
 
 /***/ }),
 
@@ -11100,7 +11082,7 @@ module.exports = __webpack_require__.p + "assets/c5c3d3e188efde0d9a0d3e4514dc5ae
   \***********************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "assets/ea2f2695fef7d51fde8a511a2562098e.png";
+module.exports = __webpack_require__.p + "assets/06407803da2496cc5171203c07599052.png";
 
 /***/ }),
 
@@ -76695,7 +76677,7 @@ var staticRenderFns = [
         _c("a", { attrs: { href: "" } }, [_vm._v("Carlos Gamez")])
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "mail" }, [_vm._v("carlos@artmixa.com")])
+      _c("p", { staticClass: "mail" }, [_vm._v("hello@carlosgamez.dev")])
     ])
   }
 ]
@@ -76783,7 +76765,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "more-info" }, [
       _c("div", { staticClass: "diamond" }),
       _vm._v(" "),
-      _c("h2", [_vm._v("Check out my portfolio at Artmixa.com")]),
+      _c("h2", [_vm._v("Check out my portfolio at carlosgamez.dev")]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
@@ -89006,6 +88988,17 @@ Vue.compile = compileToFunctions;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Vue);
 
 
+/***/ }),
+
+/***/ "./src/scripts/components/assets/keyframes.json":
+/*!******************************************************!*\
+  !*** ./src/scripts/components/assets/keyframes.json ***!
+  \******************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse("{\"desk\":{\"PxKey\":[-18.210426085816923,14.155840851402775,-5.954618240455879,-30.069425753526716,-8.68918959963663],\"PyKey\":[147.7394041347256,40.16273947145469,-2.315295624737873,-75.43381971571996,-198.43381971571995],\"PzKey\":[-73.81922701216679,1.1228435519628173,14.025126995276748,59.8385966589582,-1.947536332215347],\"RxKey\":[-2.747292795034819,1.9880055433982746,1.7244907131919927,0.08914142778441,1.5707963267948972],\"RyKey\":[-0.3447327494200625,1.3428862462967754,0.04465163038297755,-0.37912502957241256,0],\"RzKey\":[2.386404290083237,3.40339,2.8610561812624917,0.033067542807483835,0.2524948722906986]},\"movil\":{\"PxKey\":[63.60011752649689,52.155660078014435,46.489743123008,74.27971675946814,6.90649615121295],\"PyKey\":[127.67108027624823,80.17108027624852,-1.8289197237514827,-114.82891972375148,-264.3289197237515],\"PzKey\":[-118.03795392193378,-77.92219151225389,-69.08209054795668,-112.4406809918906,-0.7824457669215876],\"RxKey\":[-3.0991986113708725,-3.0991986113708725,-3.069417134970282,-3.069417134970282,-4.692268316654812],\"RyKey\":[0.5195876567127464,0.5195876567127464,0.5687914698042928,0.5687914698042928,0.016468014160117138],\"RzKey\":[3.1205335622209334,3.1205335622209334,3.102669918113523,3.102669918113523,3.8331846057]}}");
+
 /***/ })
 
 /******/ 	});
@@ -89043,6 +89036,36 @@ Vue.compile = compileToFunctions;
 /******/ 				() => (module);
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__webpack_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__webpack_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach(key => def[key] = () => value[key]);
+/******/ 			}
+/******/ 			def['default'] = () => value;
+/******/ 			__webpack_require__.d(ns, def);
+/******/ 			return ns;
 /******/ 		};
 /******/ 	})();
 /******/ 	

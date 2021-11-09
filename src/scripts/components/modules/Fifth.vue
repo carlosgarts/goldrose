@@ -3,7 +3,7 @@
       <h1>GOLD <br> ROSE</h1>
       <p class="sub">by <a href="">Carlos Gamez</a></p>
 
-      <p class="mail">carlos@artmixa.com</p>
+      <p class="mail">hello@carlosgamez.dev</p>
   </div>
 </template>
 
