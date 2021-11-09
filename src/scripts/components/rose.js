@@ -8,23 +8,19 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import SetFlakes from './utils/SetFlakes';
 import * as Keyframes from './assets/keyframes.json';
 
-let camera;
+var camera;
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 const scene = new THREE.Scene();
-
 var loadingManager;
-
 //screen variables
-let width = window.innerWidth;
-let height = window.innerHeight;
-
-let isMovile = width < 600 ? true : false;
-	
+var width = window.innerWidth;
+var height = window.innerHeight;
+var isMovile = width < 600 ? true : false;	
 //post process variables
 const postprocessing = {};
 const bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
 //bloom params
-let	params = {
+var	params = {
 	exposure: 1,
 	bloomStrength: 0.5,
 	bloomThreshold: 0,
@@ -37,7 +33,6 @@ var mixer;
 //particles
 const flakes = 100;
 var particles = new THREE.Object3D();
-
 const keyFr = Keyframes;
 
 export default {

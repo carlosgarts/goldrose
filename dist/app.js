@@ -621,7 +621,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var three__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! three */ "./node_modules/three/build/three.module.js");
 
-var rand = Math.random;
 
 function randEx() {
   var number = Math.random();
@@ -639,8 +638,8 @@ function SetFlakes(flakes, particles, planePiece, planeMat) {
   for (var i = 0; i < flakes; i++) {
     var plane = new three__WEBPACK_IMPORTED_MODULE_0__.Mesh(planePiece, planeMat);
     plane.position.set(randEx() - 0.5, randEx() - 0.5, randEx() - 0.5).normalize();
-    plane.position.multiplyScalar(rand() * 400 * 2);
-    plane.rotation.set(rand() * 2, rand() * 2, rand() * 2);
+    plane.position.multiplyScalar(Math.random * 400 * 2);
+    plane.rotation.set(Math.random * 2, Math.random * 2, Math.random * 2);
     particles.add(plane);
   }
 }
